@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link th:href="@{/main.css}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourist Guide - Attractions</title>
+</head>
+<body>
+
+<h1>Attractions in Tivoli</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="attraction : ${attractions}">
+        <td th:text="${attraction.name}">Name</td>
+        <td th:text="${attraction.description}">description</td>
+        <td>
+           <a th:href="@{/tags}" class="btn btn-info">Tags</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<button type="button">Add attraction</button>
+
+
+
+
+</ul>
+
+</body>
+</html>
