@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class TouristController {
         model.addAttribute("attractions", attractions);
         return "attractions";
     }
-
+/*
     @GetMapping("/{name}")
     public ResponseEntity<TouristAttraction> getAttractionByName(@PathVariable String name) {
         TouristAttraction attraction = touristService.getTouristAttractionByName(name);
@@ -40,7 +41,7 @@ public class TouristController {
         }
     }
 
-   /* @PostMapping("/add")
+    @PostMapping("/add")
     public ResponseEntity<String> addAttraction(@RequestBody TouristAttraction touristAttraction) {
         touristService.addTouristAttraction(touristAttraction);
         return new ResponseEntity<>("Attraction has been added!" , HttpStatus.CREATED);
@@ -99,13 +100,17 @@ public class TouristController {
 
     @GetMapping("/{name}/delete")
     public ResponseEntity<String> deleteAttraction(@PathVariable String name) {
-        if (touristService.getTouristAttractionByName(name) == null) {
-            return new ResponseEntity<>(name + " could not be found", HttpStatus.NOT_FOUND);
+        TouristAttraction attractionToDelete = touristService.getTouristAttractionByName(name);
+        if (attractionToDelete != null) {
+            touristService.deleteTouristAttraction(name);
+            return ResponseEntity.status(HttpStatus.SEE_OTHER)
+                    .location(UriComponentsBuilder.fromPath("/attractions").build().toUri())
+                    .build();
+        } else {
+            return new ResponseEntity<>(name + " not found", HttpStatus.NOT_FOUND);
         }
-        touristService.deleteTouristAttraction(name);
-        touristService.getAllTouristAttractions().forEach(System.out::println);
-        return new ResponseEntity<>(name + " has been deleted", HttpStatus.OK);
     }
+
 
     @GetMapping("/{name}/tags")
     public String getAttractionTags(@PathVariable String name, Model model) {
