@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<h1>Attractions in Tivoli</h1>
+<h1>Attractions in Denmark</h1>
 
 <table border="1">
     <thead>
@@ -26,7 +26,10 @@
         <td th:text="${attraction.city}">City</td>
         <td th:text="${attraction.description}">description</td>
         <td>
-            <a th:href="@{/attractions/{name}/tags(name=${attraction.name})}" class="btn btn-info">Tags</a>
+            <button><a th:href="@{/attractions/{name}/tags(name=${attraction.name})}" class="btn btn-info">Tags</a></button>
+            <button><a th:href="@{/attractions/{name}/edit(name=${attraction.name})}" class="btn btn-info">Edit</a></button>
+           <button><a th:href="@{/attractions/{name}/delete(name=${attraction.name})}" class="btn btn-info">Delete</a></button>
+
         </td>
     </tr>
     </tbody>

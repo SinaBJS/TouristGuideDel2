@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link th:href="@{/main.css}" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Update Attraction</title>
+</head>
+<body>
+
+<h1>Update Attraction</h1>
+
+<form action="/attractions/update" method="post">
+  <input type="hidden" id="originalName" name="originalName" th:value="${attraction.name}">
+
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" th:value="${attraction.name}" required><br><br>
+
+  <label for="city">City:</label>
+  <select id="city" name="city" required>
+    <option th:each="city : ${cities}" th:text="${city}"></option>
+  </select><br><br>
+
+  <label for="description">Description:</label>
+  <textarea id="description" name="description" required th:text="${attraction.description}"></textarea><br><br>
+
+  <label>Tags:</label><br>
+  <div th:each="tag : ${tags}">
+    <input type="checkbox" id="tag" name="tags" th:value="${tag}" th:text="${tag}">
+
+  </div>
+  <br>
+
+
+
+  <button type="submit">Update</button>
+</form>
+
+<a href="/attractions" class="btn btn-secondary">Return</a>
+
+</body>
+</html>

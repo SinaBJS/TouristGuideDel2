@@ -53,7 +53,7 @@ public class TouristController {
         model.addAttribute("cities", cities);
         model.addAttribute("tags", tags);
         model.addAttribute("attraction", new TouristAttraction("", "", "", null));
-        return "addAttractionForm";
+        return "addAttraction";
     }
 
     @PostMapping("/save")
@@ -61,27 +61,43 @@ public class TouristController {
                                  @RequestParam("city") String city,
                                  @RequestParam("description") String description,
                                  @RequestParam("tags") List<String> tags) {
-        // Create a new TouristAttraction object with the submitted data
+
         TouristAttraction newAttraction = new TouristAttraction(name, description, city, tags);
 
-        // Add the new attraction to the repository
         touristService.addTouristAttraction(newAttraction);
 
-        // Redirect to the attractions page or any other appropriate page
         return "redirect:/attractions";
     }
 
 
-    @PostMapping("/update")
-    public ResponseEntity<String> updateAttraction(@RequestParam String name, @RequestBody TouristAttraction updatedAttraction) {
-        if (touristService.getTouristAttractionByName(name) == null) {
-            return new ResponseEntity<>(name + " could not be found", HttpStatus.NOT_FOUND);
-        }
-        touristService.updateTouristAttraction(name, updatedAttraction);
-        return new ResponseEntity<>(name + " has been updated", HttpStatus.OK);
+    @GetMapping("/{name}/edit")
+    public String showEditAttractionForm(@PathVariable String name, Model model) {
+        TouristAttraction attraction = touristService.getTouristAttractionByName(name);
+
+        List<String> cities = touristService.getPredefinedCities();
+        List<TagEnum> tags = touristService.getPredefinedTags();
+        model.addAttribute("cities", cities);
+        model.addAttribute("tags", tags);
+
+
+        model.addAttribute("attraction", attraction);
+        model.addAttribute("originalName", name);
+
+
+        return "editAttraction";
     }
 
-    @GetMapping("/delete/{name}")
+    @PostMapping("/update")
+    public String updateAttraction(@ModelAttribute("attraction") TouristAttraction updatedAttraction,
+                                   @RequestParam("originalName") String originalName) {
+
+        touristService.updateTouristAttraction(originalName, updatedAttraction);
+
+        return "redirect:/attractions";
+    }
+
+
+    @GetMapping("/{name}/delete")
     public ResponseEntity<String> deleteAttraction(@PathVariable String name) {
         if (touristService.getTouristAttractionByName(name) == null) {
             return new ResponseEntity<>(name + " could not be found", HttpStatus.NOT_FOUND);
