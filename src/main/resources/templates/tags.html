@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Tags for Attraction</title>
+    <link rel="stylesheet" th:href="@{/css/tags.css}" />
 </head>
 <body>
 <h2>Tags for Attraction: <span th:text="${attractionName}"></span></h2>
+
 <div>
     <ul>
         <li th:each="tag : ${tags}" th:text="${tag}"></li>
