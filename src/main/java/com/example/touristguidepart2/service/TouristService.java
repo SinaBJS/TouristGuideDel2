@@ -1,5 +1,6 @@
 package com.example.touristguidepart2.service;
 
+import com.example.touristguidepart2.model.TagEnum;
 import com.example.touristguidepart2.model.TouristAttraction;
 import com.example.touristguidepart2.repository.TouristRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,13 @@ public class TouristService {
     // Delete
     public void deleteTouristAttraction(String name) {
         touristRepository.deleteTouristAttraction(name);
+    }
+
+    public List<String> getPredefinedCities() {
+        return touristRepository.getPredefinedCities();
+    }
+
+    public List<TagEnum> getPredefinedTags() {
+        return touristRepository.getPredefinedTags();
     }
 }
